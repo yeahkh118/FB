@@ -338,7 +338,7 @@ body.dark-mode .cost-price-box.recommended span,body.dark-mode .cost-price-box.r
 .control-workspace{padding:0;overflow:hidden}.control-tabbar{display:flex;gap:5px;padding:12px 15px 0;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--paper) 62%,var(--card)) ;overflow-x:auto}
 .control-tab{display:inline-flex;align-items:center;gap:8px;border:0;border-bottom:3px solid transparent;background:transparent;color:var(--muted);padding:13px 16px 12px;font-size:11px;font-weight:800;white-space:nowrap;border-radius:9px 9px 0 0;transition:.18s}
 .control-tab span{font-size:15px}.control-tab:hover{background:rgba(201,168,106,.09);color:var(--navy)}.control-tab.active{background:var(--card);color:var(--navy);border-bottom-color:var(--gold)}
-.control-panels{padding:23px 25px 18px}.control-panel{display:none;animation:fade .18s ease}.control-panel.active{display:block}.control-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}.control-panel-heading .eyebrow{margin-bottom:5px}.control-panel-heading h3{margin:0;color:var(--navy);font-size:19px;letter-spacing:-.025em}.control-panel-heading p{margin:6px 0 0;color:var(--muted);font-size:11px;line-height:1.5}.control-step{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;color:var(--gold);font-size:14px;font-weight:900;flex-shrink:0}
+.control-panels{padding:23px 25px 18px}.control-panel{display:none;animation:fade .18s ease}.control-panel.active{display:block}#page-controls .control-panel[hidden]{display:none!important}.control-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}.control-panel-heading .eyebrow{margin-bottom:5px}.control-panel-heading h3{margin:0;color:var(--navy);font-size:19px;letter-spacing:-.025em}.control-panel-heading p{margin:6px 0 0;color:var(--muted);font-size:11px;line-height:1.5}.control-step{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;color:var(--gold);font-size:14px;font-weight:900;flex-shrink:0}
 .control-note{display:flex;gap:12px;padding:14px 16px;margin-top:20px;border:1px solid #eadfc9;border-radius:11px;background:#faf6ee;color:#705a35;font-size:11px;line-height:1.6}.control-note strong{min-width:125px;color:#594426}.control-note span{color:inherit}.control-footer{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:15px 25px 18px;border-top:1px solid var(--line);background:var(--paper)}
 body.dark-mode .control-overview-icon{background:#342e23;color:#ead6ad}body.dark-mode .control-tabbar{background:#101b29}body.dark-mode .control-tab{color:var(--muted)}body.dark-mode .control-tab:hover{color:var(--ink)}body.dark-mode .control-tab.active{background:var(--card);color:var(--ink)}body.dark-mode .control-note{background:#292820;border-color:#4c4536;color:#dfcfac}body.dark-mode .control-note strong{color:#f0dfbc}body.dark-mode .control-step{border-color:var(--line)}
 @media(max-width:700px){.control-overview{align-items:flex-start;flex-wrap:wrap}.control-overview-meta{margin-left:59px;padding:0;border:0}.control-tabbar{padding-left:8px;padding-right:8px}.control-tab{padding:12px 10px;font-size:10px}.control-panels{padding:18px 15px 14px}.control-note{display:block}.control-note strong{display:block;margin-bottom:4px}.control-footer{padding:13px 15px;align-items:flex-start;flex-direction:column}.control-footer .btn{width:100%;justify-content:center}}
@@ -1054,13 +1054,7 @@ body.dark-mode .language-current,body.dark-mode .language-menu{background:#13203
   $$('#languageMenu [data-language]').forEach(button=>button.addEventListener('click',()=>{openLanguageMenu(false);applyLanguage(button.dataset.language,true);save();}));
   document.addEventListener('click',e=>{if(!e.target.closest('#languageSwitcher'))openLanguageMenu(false);});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')openLanguageMenu(false);});
-  $('#companyLogoUpload').addEventListener('change',e=>{
-    const file=e.target.files?.[0];if(!file)return;
-    if(file.size>1*1024*1024){toast('Logo file must be 1 MB or smaller to protect browser storage space');e.target.value='';return;}
-    if(!/^image\/(png|jpeg|webp|svg\+xml)$/.test(file.type)){toast('Choose a PNG, JPG, WEBP or SVG image');e.target.value='';return;}
-    const reader=new FileReader();reader.onload=()=>{settings.logoData=String(reader.result||'');syncSettings();save();toast('Company logo uploaded');};reader.onerror=()=>toast('Unable to read logo file');reader.readAsDataURL(file);
-  });
-  $('#removeCompanyLogo').addEventListener('click',()=>{settings.logoData='';$('#companyLogoUpload').value='';syncSettings();save();toast('Company logo removed');});
+  // Company logo handlers are delegated to the stable Settings page root below.
   $('#fontDown').addEventListener('click',()=>applyTextScale((Number(storageGet(UI_KEYS.scale))||1)-.05,true));
   $('#fontUp').addEventListener('click',()=>applyTextScale((Number(storageGet(UI_KEYS.scale))||1)+.05,true));
   $$('.sidebar .nav button[data-page]').forEach(b=>{b.title=b.textContent.trim();});
@@ -1096,13 +1090,83 @@ body.dark-mode .language-current,body.dark-mode .language-menu{background:#13203
     $$('[data-setting]').forEach(el=>{settings[el.dataset.setting]=(el.hasAttribute('data-i18n-default-value')&&el.dataset.userEdited!=='1')?(el.getAttribute('data-i18n-default-value')||el.value):el.value;});
     settings.capital=Math.max(0,Number(settings.capital)||0);settings.exchangeRate=Math.max(1,Number(settings.exchangeRate)||4100);syncSettings();recalculate();applyLanguage(settings.language||'us');save();toast('Settings applied and saved');
   }
-  $('#applySettings').addEventListener('click',applySettings);
-  // Tab navigation inside the Settings workspace.
-  $$('.control-tab').forEach(tab=>tab.addEventListener('click',()=>{
-    const key=tab.dataset.controlTab;
-    $$('.control-tab').forEach(t=>{const active=t===tab;t.classList.toggle('active',active);t.setAttribute('aria-selected',active?'true':'false');});
-    $$('.control-panel').forEach(panel=>{const active=panel.dataset.controlPanel===key;panel.classList.toggle('active',active);panel.hidden=!active;});
-  }));
+  // Settings interactions use event delegation because restore/import replaces the page contents.
+  // The page root remains stable, so tabs and buttons continue working after restore in all modern browsers.
+  const settingsRoot=$('#page-controls');
+  function getSettingsTabs(){return Array.prototype.slice.call(settingsRoot?settingsRoot.querySelectorAll('.control-tab'):[]);}
+  function activateSettingsTab(key,focusTab){
+    if(!settingsRoot)return;
+    const tabs=getSettingsTabs();
+    let matched=false;
+    tabs.forEach(tab=>{
+      const active=tab.getAttribute('data-control-tab')===key;
+      if(active)matched=true;
+      tab.classList.toggle('active',active);
+      tab.setAttribute('aria-selected',active?'true':'false');
+      tab.setAttribute('tabindex',active?'0':'-1');
+      tab.setAttribute('role','tab');
+      const panelId=tab.getAttribute('aria-controls');
+      if(panelId){const panel=document.getElementById(panelId);if(panel){panel.hidden=!active;panel.classList.toggle('active',active);panel.setAttribute('role','tabpanel');}}
+    });
+    if(!matched&&tabs.length)activateSettingsTab(tabs[0].getAttribute('data-control-tab'),focusTab);
+    if(focusTab){const activeTab=tabs.filter(tab=>tab.getAttribute('data-control-tab')===key)[0];if(activeTab)activeTab.focus();}
+  }
+  function normalizeSettingsTabs(){
+    if(!settingsRoot)return;
+    const tabs=getSettingsTabs();
+    if(!tabs.length)return;
+    let selected='';
+    for(let i=0;i<tabs.length;i++){
+      if(tabs[i].classList.contains('active')||tabs[i].getAttribute('aria-selected')==='true'){selected=tabs[i].getAttribute('data-control-tab');break;}
+    }
+    if(!selected)selected=tabs[0].getAttribute('data-control-tab');
+    tabs.forEach(tab=>{
+      const key=tab.getAttribute('data-control-tab');
+      const panelId=tab.getAttribute('aria-controls')||('control-panel-'+key);
+      tab.setAttribute('aria-controls',panelId);
+      const panel=settingsRoot.querySelector('[data-control-panel="'+key+'"]')||document.getElementById(panelId);
+      if(panel&&!panel.id)panel.id=panelId;
+    });
+    activateSettingsTab(selected,false);
+  }
+  if(settingsRoot){
+    settingsRoot.addEventListener('click',function(event){
+      let node=event.target;
+      while(node&&node!==settingsRoot&&!(node.classList&&node.classList.contains('control-tab')))node=node.parentNode;
+      if(node&&node!==settingsRoot){activateSettingsTab(node.getAttribute('data-control-tab'),false);return;}
+      let action=event.target;
+      while(action&&action!==settingsRoot&&action.id!=='applySettings'&&action.id!=='removeCompanyLogo')action=action.parentNode;
+      if(action&&action.id==='applySettings'){applySettings();return;}
+      if(action&&action.id==='removeCompanyLogo'){
+        settings.logoData='';
+        const upload=settingsRoot.querySelector('#companyLogoUpload');if(upload)upload.value='';
+        syncSettings();save();toast('Company logo removed');
+      }
+    });
+    settingsRoot.addEventListener('change',function(event){
+      const input=event.target;
+      if(!input||input.id!=='companyLogoUpload')return;
+      const file=input.files&&input.files[0];if(!file)return;
+      if(file.size>1024*1024){toast('Logo file must be 1 MB or smaller to protect browser storage space');input.value='';return;}
+      if(!/^image\/(png|jpeg|webp|svg\+xml)$/.test(file.type)){toast('Choose a PNG, JPG, WEBP or SVG image');input.value='';return;}
+      const reader=new FileReader();
+      reader.onload=function(){settings.logoData=String(reader.result||'');syncSettings();save();toast('Company logo uploaded');};
+      reader.onerror=function(){toast('Unable to read logo file');};
+      reader.readAsDataURL(file);
+    });
+    settingsRoot.addEventListener('keydown',function(event){
+      const target=event.target;
+      if(!target||!target.classList||!target.classList.contains('control-tab'))return;
+      const tabs=getSettingsTabs();if(!tabs.length)return;
+      let index=tabs.indexOf(target);if(index<0)return;
+      if(event.key==='ArrowRight')index=(index+1)%tabs.length;
+      else if(event.key==='ArrowLeft')index=(index-1+tabs.length)%tabs.length;
+      else if(event.key==='Home')index=0;
+      else if(event.key==='End')index=tabs.length-1;
+      else return;
+      event.preventDefault();activateSettingsTab(tabs[index].getAttribute('data-control-tab'),true);
+    });
+  }
   function recalculateBudget(){
     const rows=$$('#budgetTable tbody tr');let total=0;
     rows.forEach(row=>{const amount=Math.max(0,Number($('.budget-amount',row)?.value)||0);total+=amount;});
@@ -1346,10 +1410,10 @@ body.dark-mode .language-current,body.dark-mode .language-menu{background:#13203
   $('#saveBtn').addEventListener('click',save);
   $('#printBtn').addEventListener('click',()=>window.print());
   $('#exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(capture(),null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='food-beverage-business-plan-backup.json';a.click();URL.revokeObjectURL(url);toast('JSON backup exported');});
-  $('#importFile').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{const data=JSON.parse(await file.text());if(!data||typeof data!=='object'||(!data.html&&!data.settings))throw new Error('Invalid backup');if(data.settings)Object.assign(settings,data.settings);if(data.html)Object.entries(data.html).forEach(([id,html])=>{const el=$('#'+id);if(el)el.innerHTML=html;});if(data.inputs)Object.entries(data.inputs).forEach(([id,value])=>{const el=$('#'+id);if(el)el.value=value;});restoreFormValues(data.formValues);ensureRoadmapMapFeature();setRoadmapView(storageGet('fb_plan_roadmap_view')||'cards',false);syncSettings();recalculate();save();toast('Backup imported');}catch(err){toast('Import failed: invalid backup file');}finally{e.target.value='';}});
+  $('#importFile').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{const data=JSON.parse(await file.text());if(!data||typeof data!=='object'||(!data.html&&!data.settings))throw new Error('Invalid backup');if(data.settings)Object.assign(settings,data.settings);if(data.html)Object.entries(data.html).forEach(([id,html])=>{const el=$('#'+id);if(el)el.innerHTML=html;});if(data.inputs)Object.entries(data.inputs).forEach(([id,value])=>{const el=$('#'+id);if(el)el.value=value;});restoreFormValues(data.formValues);normalizeSettingsTabs();ensureRoadmapMapFeature();setRoadmapView(storageGet('fb_plan_roadmap_view')||'cards',false);syncSettings();recalculate();save();toast('Backup imported');}catch(err){toast('Import failed: invalid backup file');}finally{e.target.value='';}});
   // Autosave after edits, without interrupting the user.
   let saveTimer;document.addEventListener('input',()=>{clearTimeout(saveTimer);saveTimer=setTimeout(()=>{try{storageSet(STORE_KEY,JSON.stringify(capture()));}catch(e){}},800);});
-  restore();ensureCostingFeature();refreshCostProductOptions();syncSettings();recalculate();
+  restore();normalizeSettingsTabs();ensureCostingFeature();refreshCostProductOptions();syncSettings();recalculate();
   // Growth roadmap map-flow view. Rebuild its static controls if an older browser save is restored.
   function roadmapSourceText(el){
     if(!el)return '';
