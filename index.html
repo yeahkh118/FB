@@ -382,6 +382,90 @@ body.dark-mode .language-current,body.dark-mode .language-menu{background:#13203
 #page-controls .settings-brand-section{padding-top:28px}
 #page-controls .settings-capital-section{padding-bottom:4px}
 @media print{#page-controls .settings-merged-section{break-inside:avoid}}
+
+/* Refreshed Growth Roadmap: central-spine milestone map */
+.roadmap-map-view{padding:26px;background:
+  radial-gradient(circle at 8% 5%,rgba(201,168,106,.10),transparent 27%),
+  radial-gradient(circle at 94% 88%,rgba(63,146,120,.07),transparent 25%),var(--card)}
+.roadmap-map-heading{align-items:center;margin-bottom:26px}
+.roadmap-map-heading h3{font-size:21px;letter-spacing:-.035em}
+.roadmap-map-badge{background:rgba(201,168,106,.13);border-color:rgba(201,168,106,.35);padding:9px 13px}
+.roadmap-flow-track{display:grid;grid-template-columns:minmax(0,1fr);gap:13px;position:relative;overflow:visible;padding:8px 4px 14px}
+.roadmap-flow-track:before{content:"";position:absolute;left:50%;top:30px;bottom:30px;width:3px;transform:translateX(-50%);border-radius:4px;background:linear-gradient(180deg,#c9a86a 0%,#6f9db3 48%,#4a9a7e 100%);opacity:.7}
+.roadmap-route-step{display:grid;grid-template-columns:minmax(0,1fr) 62px minmax(0,1fr);align-items:stretch;position:relative;min-height:0;z-index:1}
+.roadmap-route-card{min-width:0;display:flex}
+.roadmap-route-step.left .roadmap-route-card{grid-column:1;grid-row:1;margin-right:8px}
+.roadmap-route-step.right .roadmap-route-card{grid-column:3;grid-row:1;margin-left:8px}
+.roadmap-route-marker{grid-column:2;grid-row:1;align-self:center;justify-self:center;display:grid;place-items:center;position:relative;z-index:2;width:48px;height:48px;border-radius:50%;background:var(--card);border:1px solid var(--line);box-shadow:0 5px 16px rgba(16,29,45,.12)}
+.roadmap-route-marker span{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:900;color:#172536;background:#ead6ad}
+.roadmap-route-marker:before{content:"";position:absolute;top:50%;height:2px;width:15px;background:#c9b58f;transform:translateY(-50%);z-index:0}.roadmap-route-step.left .roadmap-route-marker:before{right:calc(100% - 1px)}.roadmap-route-step.right .roadmap-route-marker:before{left:calc(100% - 1px)}.roadmap-route-marker span{position:relative;z-index:1}
+.roadmap-route-marker.stage-2 span{background:#d9e9f0;color:#315c70}
+.roadmap-route-marker.stage-3 span{background:#d9eee6;color:#276b55}
+.roadmap-route-marker.gate-marker{border-style:dashed;border-color:#c9a86a}
+.roadmap-route-marker.gate-marker span{font-size:19px;background:#f5ecd9;color:#8b6c3a}
+.roadmap-route-card .roadmap-flow-node{width:100%;min-height:0;padding:19px 20px;border-radius:16px;box-shadow:0 8px 22px rgba(16,29,45,.06)}
+.roadmap-route-card .roadmap-flow-node.stage-node{border-top-width:4px}
+.roadmap-route-card .roadmap-flow-node.gate-node{background:var(--paper);border-style:solid;border-left:3px dashed #c9a86a;justify-content:flex-start}
+.roadmap-route-card .roadmap-flow-tag{font-size:10px;margin-bottom:8px}
+.roadmap-route-card .roadmap-flow-period{display:inline-flex;align-self:flex-start;background:var(--paper);border:1px solid var(--line);border-radius:30px;padding:5px 9px;margin-bottom:10px;font-size:10px}
+.roadmap-route-card .roadmap-flow-node h4{font-size:16px;line-height:1.35;margin-bottom:8px}
+.roadmap-route-card .roadmap-flow-node p{font-size:12px;line-height:1.6;margin-bottom:12px}
+.roadmap-route-card .roadmap-flow-kpi{padding-top:9px;gap:4px}
+.roadmap-route-card .roadmap-flow-kpi span{font-size:9px;letter-spacing:.09em}
+.roadmap-route-card .roadmap-flow-kpi strong{font-size:12px;line-height:1.45}
+.roadmap-route-card .roadmap-gate-icon{width:34px;height:34px;border-radius:11px;margin-bottom:9px}
+.roadmap-route-card .roadmap-flow-node.gate-node h4{font-size:14px;margin-bottom:12px}
+.roadmap-route-card .roadmap-gate-list{gap:7px}
+.roadmap-route-card .roadmap-gate-list li{font-size:11px;line-height:1.45}
+.roadmap-route-card .roadmap-gate-outcomes{grid-template-columns:1fr 1fr;gap:7px}
+.roadmap-route-card .roadmap-gate-outcomes span{font-size:10px;padding:8px 9px}
+.roadmap-flow-outcome{margin-top:8px;padding:16px 18px;border-radius:14px}
+.roadmap-outcome-icon{width:42px;height:42px;border-radius:13px}
+.roadmap-flow-outcome strong{font-size:13px}
+.roadmap-flow-outcome span{font-size:11px}
+.roadmap-flow-note{padding:14px 16px;border-radius:12px}
+.roadmap-flow-note strong{font-size:12px}
+.roadmap-flow-note p{font-size:11px;line-height:1.55}
+body.dark-mode .roadmap-map-view{background:radial-gradient(circle at 8% 5%,rgba(201,168,106,.09),transparent 27%),radial-gradient(circle at 94% 88%,rgba(63,146,120,.08),transparent 25%),var(--card)}
+body.dark-mode .roadmap-route-marker{background:#1b2b3d;border-color:#405167}
+body.dark-mode .roadmap-route-card .roadmap-flow-period{background:#1b2b3d;border-color:#405167}
+body.dark-mode .roadmap-route-card .roadmap-flow-node.gate-node{background:#172638;border-color:#526075}
+body.dark-mode .roadmap-route-marker.gate-marker span{background:#3c3427;color:#ead6ad}
+body.dark-mode .roadmap-route-card .roadmap-gate-icon{background:#3c3427;color:#ead6ad}
+@media(max-width:760px){
+  .roadmap-map-view{padding:16px}
+  .roadmap-map-heading{align-items:flex-start;gap:12px}
+  .roadmap-map-heading h3{font-size:18px}
+  .roadmap-flow-track{gap:11px;padding:5px 0 12px}
+  .roadmap-flow-track:before{left:22px;transform:none;top:22px;bottom:22px}
+  .roadmap-route-step{grid-template-columns:44px minmax(0,1fr);gap:0;min-height:0}
+  .roadmap-route-step.left .roadmap-route-card,.roadmap-route-step.right .roadmap-route-card{grid-column:2;grid-row:1;margin:0 0 0 7px}
+  .roadmap-route-marker{grid-column:1;grid-row:1;width:42px;height:42px}
+  .roadmap-route-marker span{width:30px;height:30px}
+  .roadmap-route-marker:before{left:calc(100% - 1px)!important;right:auto!important;width:8px}
+  .roadmap-route-card .roadmap-flow-node{padding:15px;border-radius:13px}
+  .roadmap-route-card .roadmap-flow-node h4{font-size:14px}
+  .roadmap-route-card .roadmap-flow-node p{font-size:11px}
+  .roadmap-route-card .roadmap-gate-outcomes{grid-template-columns:1fr}
+}
+@media print{
+  .roadmap-view-toolbar{display:none!important}
+  .roadmap-map-view{padding:10px!important;background:#fff!important;box-shadow:none!important}
+  .roadmap-map-heading{margin-bottom:12px}
+  .roadmap-flow-track{gap:5px;overflow:visible;padding:4px 0}
+  .roadmap-flow-track:before{background:#b7a17c;opacity:.8}
+  .roadmap-route-step{grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr);break-inside:avoid}
+  .roadmap-route-marker{width:32px;height:32px;box-shadow:none}
+  .roadmap-route-marker span{width:23px;height:23px;font-size:8px}
+  .roadmap-route-step.left .roadmap-route-card{margin-right:3px}
+  .roadmap-route-step.right .roadmap-route-card{margin-left:3px}
+  .roadmap-route-card .roadmap-flow-node{padding:8px;border-radius:6px;box-shadow:none}
+  .roadmap-route-card .roadmap-flow-node h4{font-size:9px}
+  .roadmap-route-card .roadmap-flow-node p,.roadmap-route-card .roadmap-gate-list li{font-size:7px}
+  .roadmap-route-card .roadmap-flow-kpi strong,.roadmap-route-card .roadmap-flow-kpi span,.roadmap-route-card .roadmap-gate-outcomes span{font-size:6px}
+  .roadmap-flow-outcome,.roadmap-flow-note{padding:7px;margin-top:6px}
+}
+
 </style>
 </head>
 <body>
@@ -1452,8 +1536,15 @@ body.dark-mode .language-current,body.dark-mode .language-menu{background:#13203
     });
     const gate1=`<article class="roadmap-flow-node gate-node"><div class="roadmap-gate-icon">◇</div><div class="roadmap-flow-tag">Investment decision gate</div><h4>Decision gate 1 · Validate the model</h4><ul class="roadmap-gate-list"><li>Positive contribution per order</li><li>Repeat demand and customer feedback</li><li>Standard recipes, suppliers and operating SOPs</li><li>Working capital protected</li></ul><div class="roadmap-gate-outcomes"><span class="roadmap-gate-pass">✓ PASS — proceed</span><span class="roadmap-gate-hold">↺ HOLD — refine and re-test</span></div></article>`;
     const gate2=`<article class="roadmap-flow-node gate-node"><div class="roadmap-gate-icon">◇</div><div class="roadmap-flow-tag">Investment decision gate</div><h4>Decision gate 2 · Approve central kitchen</h4><ul class="roadmap-gate-list"><li>Recurring B2B / contracted orders</li><li>Production utilization supports fixed costs</li><li>Delivery economics and food safety controls validated</li><li>Expansion capital approved separately</li></ul><div class="roadmap-gate-outcomes"><span class="roadmap-gate-pass">✓ PASS — proceed</span><span class="roadmap-gate-hold">↺ HOLD — refine and re-test</span></div></article>`;
-    const arrow='<div class="roadmap-flow-arrow" aria-hidden="true">➜</div>';
-    track.innerHTML=[stageNodes[0]||'',arrow,gate1,arrow,stageNodes[1]||'',arrow,gate2,arrow,stageNodes[2]||''].join('');
+    const routeStep=(side,kind,marker,content)=>`<div class="roadmap-route-step ${side}" role="listitem"><div class="roadmap-route-card">${content}</div><div class="roadmap-route-marker ${kind}" aria-hidden="true"><span>${marker}</span></div></div>`;
+    const route=[
+      routeStep('left','stage-1','01',stageNodes[0]||''),
+      routeStep('right','gate-marker','◇',gate1),
+      routeStep('left','stage-2','02',stageNodes[1]||''),
+      routeStep('right','gate-marker','◇',gate2),
+      routeStep('left','stage-3','03',stageNodes[2]||'')
+    ].join('');
+    track.innerHTML=`<div class="roadmap-route" role="list">${route}</div>`;
     localizeSubtree($('#roadmapMapView'),activeLanguage);
   }
   function setRoadmapView(view,saveChoice=true){
